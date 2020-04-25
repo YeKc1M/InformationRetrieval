@@ -1,5 +1,6 @@
-from logical import AND, OR, ANDNOT, ORNOT
 import jieba
+
+from logical import AND, OR
 
 # news_tensite_xml.smarty.dat
 # convert .data to corpora list
@@ -42,7 +43,7 @@ def dataClean(tokens):
 
 # print(dataClean(tokens_list[0]))
 cleaned_tokens_list=[dataClean(tokens) for tokens in tokens_list]
-# print(cleaned_tokens_list[34])
+# print(cleaned_tokens_list)
 # print(corpora[24])
 
 dictionary=dict()
@@ -56,7 +57,7 @@ for i in range(0, len(cleaned_tokens_list)):
             # if(i not in dictionary[cleaned_token]):
             #     dictionary[cleaned_token].append(i)
             dictionary[cleaned_token].append(i)
-print(dictionary['未来'])
+# print(dictionary['未来'])
 # print(dictionary.keys())
 
 invertedIndex=dict()
@@ -75,14 +76,36 @@ for key in dictionary.keys():
             invertedIndex[key][2].append(docno_list[i])
             invertedIndex[key][3].append(1)
     invertedIndex[key][0]=docCount
-print(invertedIndex['未来'])
+# print(invertedIndex['未来'])
 
+def InvertedIndex():
+    return invertedIndex
+
+def getDocList(token):
+    return invertedIndex[token][2]
+
+docNum=len(corpora)
+def getDocNum():
+    return docNum
+# print(getDocList('一个'))
+
+def ANDALL(docno_lists):
+    sortedList=sorted(docno_lists, key=lambda k:len(k))
+    # print(sortedList)
+    res=sortedList[0]
+    for i in range(1, len(sortedList)):
+        res=AND(res, sortedList[i])
+    return res
+
+def ORALL(docno_lists):
+    sortedList=sorted(docno_lists, key=lambda k:len(k), reverse=True)
+    # print(sortedList)
+    res=sortedList[0]
+    for i in range(1, len(sortedList)):
+        res=OR(res, sortedList[i])
+    return res
 
 
 if __name__=='__main__':
     l1=[2,4,6,7]
     l2=[3,5,7,8]
-    #print(AND(l1,l2))
-    # print(OR(l1,l2))
-    # print(ANDNOT(l1,l2))
-    # print(ORNOT(l1, l2, 10))

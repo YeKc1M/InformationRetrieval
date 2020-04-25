@@ -80,14 +80,20 @@ def ORNOT(l1, l2, doc_num):
                 c1+=1
     return l
     
-            
+def NOT(l1, doc_num):
+    l=[]
+    for i in range(0, doc_num):
+        if(i not in l1):
+            l.append(i)
+    return l        
 
 
 if __name__=='__main__':
     print('logical.py')
     l1=[2,4,6,7]
     l2=[3,5,7,8]
-    # print(AND(l1,l2))
-    # print(OR(l1,l2))
-    # print(ANDNOT(l1,l2))
+    print(AND(l1,l2))
+    print(OR(l1,l2))
+    print(NOT(l2, 10))
+    print(ANDNOT(l1,l2))
     print(ORNOT(l1, l2, 10))
