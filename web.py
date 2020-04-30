@@ -14,7 +14,9 @@ def index():
         print(title=='')
         res=[]
         if title=='':
-            res=simpleADD(content)
+            res=sorted(simpleADD(content), key=lambda k: k[1], reverse=True)
+        else:
+            res=sorted(weightADD(title, content), key=lambda k: k[1], reverse=True)
         print(res)
         return jsonify(res)
     return render_template('index.html')

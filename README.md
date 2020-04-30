@@ -8,3 +8,4 @@ lab2的内容包括：
 2. 实现dynamic indexing（将新数据并入原数据），写入到dynamicTerm.txt和dynamicPosting.txt
 3. 对term实现1-gram index索引（1gramIndex.py）
 4. 构建title的zone index（zoneIndex.py）
+5. 实现文本查询（AND）和域查询（AND）

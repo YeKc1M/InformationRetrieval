@@ -1,6 +1,6 @@
 import jieba
 
-from index import dataClean, getStopWords, getDocList, InvertedIndex
+from index import dataClean, getStopWords, getDocList, InvertedIndex, ANDALL
 
 titles=[]
 with open('news_tensite_xml.smarty.dat','r', encoding='gbk') as file:
@@ -32,6 +32,7 @@ for i in range(0, len(cleaned_title_tokens_list)):
 
 weight={'title':0.6, 'content':0.4}
 
+# wrong
 def singleWeight(token):
     res=[]
     if token not in zoneIndex.keys():
@@ -83,16 +84,6 @@ def postingADD(posting1, posting2):
             count2+=1
     return res
 
-def weightADD(string):
-    tokens=jieba.lcut(string)
-    cleaned=dataClean(tokens)
-    posting=[singleWeight(token) for token in cleaned]
-    posting=sorted(posting, key=lambda k: len(k))
-    # print(posting)
-    res=posting[0]
-    for i in range(1, len(posting)):
-        res=postingADD(res, posting[i])
-    return sorted(res, key=lambda k: k[1], reverse=True)
 
 def simpleADD(string):
     tokens=jieba.lcut(string)
@@ -118,8 +109,42 @@ def simpleADD(string):
     res=posting[0]
     for i in range(1, len(posting)):
         res=postingADD(res, posting[i])
-    return sorted(res, key=lambda k: k[1], reverse=True)
+    return res
 
+def weightADD(titlestring, contentstring):
+    title=jieba.lcut(titlestring)
+    cleaned_title=dataClean(title)
+    content_posting=simpleADD(contentstring)
+    titleno_lists=[zoneIndex[element] for element in cleaned_title]
+    # print(titleno_lists)
+    title_posting=ANDALL(titleno_lists)
+    print(title_posting)
+    print(content_posting)
+    countt=0
+    countc=0
+    lent=len(title_posting)
+    lenc=len(content_posting)
+    res=[]
+    while countt!=lent and countc!=lenc:
+        if title_posting[countt]<content_posting[countc][0]:
+            countt+=1
+        elif title_posting[countt]==content_posting[countc][0]:
+            res.append([title_posting[countt], weight['title']+weight['content']*content_posting[countc][1]])
+            countt+=1
+            countc+=1
+        else:
+            countc+=1
+    # print(res)
+    return res
+    # posting=[singleWeight(token) for token in cleaned]
+    # posting=sorted(posting, key=lambda k: len(k))
+    # # print(posting)
+    # res=posting[0]
+    # for i in range(1, len(posting)):
+    #     res=postingADD(res, posting[i])
+    # return sorted(res, key=lambda k: k[1], reverse=True)
+
+weightADD('一', '月')
 
 string='现在一个'
 # print(simpleADD(string))
