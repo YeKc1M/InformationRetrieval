@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--  -->
+        <title>information retrieval</title>
+        <script type="text/javascript" src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript">
+            $SCRIPT_ROOT={{request.script_root|tojson|safe}};
+            $(function(){
+                $('#test').click(function(){
+                    alert('test')
+                });
+                $('#submit').click(function(){
+                    //alert($('input[name="content"]').val())
+                    $.post($SCRIPT_ROOT+'/',{
+                        title: $('input[name="title"]').val(),
+                        content: $('#content').val()
+                    }, function(data){
+                        alert(data);
+                        var text=''
+                        for(var i=0; i<data.length; i++){
+                            text+=data[i][0]+'  '
+                        }
+                        alert(text)
+                        $('#result').text(text)
+                    })
+                });
+            })
+        </script>
+    </head>
+    <body>
+        <button id='test'>test</button>
+        <div>
+            title:<input type="text" name="title"/><br>
+            content:<br>
+            <textarea id='content'></textarea><br>
+            <button id='submit'>submit</button>
+        </div>
+        <div id='result'></div>
+    </body>
+</html>

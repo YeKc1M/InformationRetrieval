@@ -80,7 +80,7 @@ def postingADD(posting1, posting2):
             count1+=1
             count2+=1
         else:
-            count2+=2
+            count2+=1
     return res
 
 def weightADD(string):
@@ -124,4 +124,4 @@ def simpleADD(string):
 string='现在一个'
 # print(simpleADD(string))
 # print(singleWeight('现在'))
-print(weightADD(string))
+# print(weightADD(string))
