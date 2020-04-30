@@ -33,6 +33,8 @@ with open('stopwords.txt', 'r') as f:
     stopwords=fstr.split('\n')
 # print(stopwords)
 # print(tokens_list[0][-12] in stopwords)
+def getStopWords():
+    return stopwords
 
 def dataClean(tokens):
     l=[]
@@ -88,6 +90,24 @@ docNum=len(corpora)
 def getDocNum():
     return docNum
 # print(getDocList('一个'))
+
+def writeIndex(index):
+    terms=list(index.keys())
+    length=len(terms)
+    terms=sorted(terms, key=lambda k:k)
+    with open('dictionary.txt','w') as file:
+        for i in range(0, length):
+            file.write(terms[i]+'\n')
+    with open('posting.txt','w') as file:
+        for i in range(0, length):
+            posting=invertedIndex[terms[i]]
+            line=str(posting[2])+'  '+str(posting[3])
+            file.write(line+'\n')
+# writeIndex(invertedIndex)
+
+# terms=list(dictionary.keys())
+# for i in range(0, len(terms)-1):
+#     print(terms[i]<terms[i+1])
 
 def ANDALL(docno_lists):
     sortedList=sorted(docno_lists, key=lambda k:len(k))
