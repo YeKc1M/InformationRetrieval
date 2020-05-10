@@ -84,7 +84,16 @@ def InvertedIndex():
     return invertedIndex
 
 def getDocList(token):
-    return invertedIndex[token][2]
+    if token in invertedIndex.keys():
+        return invertedIndex[token][2]
+    else:
+        return []
+
+def getFreqList(token):
+    if token in invertedIndex.keys():
+        return invertedIndex[token][3]
+    else:
+        return []
 
 docNum=len(corpora)
 def getDocNum():

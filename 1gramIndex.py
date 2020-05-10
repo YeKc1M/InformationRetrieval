@@ -22,6 +22,8 @@ for term in terms:
 # print(len(index.keys()))
 # print(index['超'])
 
-print(index['个'])
-print(index['人'])
-print(AND(index['个'],index['人']))
+# print(index['个'])
+# print(index['人'])
+# print(AND(index['个'],index['人']))
+
+print(index)

@@ -2,7 +2,7 @@
 def AND(l1, l2):
     l=[]
     c1=0
-    c2=2
+    c2=0
     length1=len(l1)
     length2=len(l2)
     while(c1!=length1 and c2!=length2):

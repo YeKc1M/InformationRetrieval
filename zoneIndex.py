@@ -1,6 +1,6 @@
 import jieba
 
-from index import dataClean, getStopWords, getDocList, InvertedIndex, ANDALL
+from index import dataClean, getStopWords, getDocList, getFreqList, InvertedIndex, ANDALL
 
 titles=[]
 with open('news_tensite_xml.smarty.dat','r', encoding='gbk') as file:
@@ -29,8 +29,13 @@ for i in range(0, len(cleaned_title_tokens_list)):
 #     print(key+' '+str(zoneIndex[key]))
 # print(zoneIndex.keys())
 # print(zoneIndex['非法'])
+def getTitleDoc(token):
+    if token in zoneIndex.keys():
+        return zoneIndex[token]
+    else:
+        return []
 
-weight={'title':0.6, 'content':0.4}
+weight={'title':0.7, 'content':0.3}
 
 # wrong
 def singleWeight(token):
@@ -75,12 +80,14 @@ def postingADD(posting1, posting2):
     res=[]
     while count1!=len1 and count2!=len2:
         if posting1[count1][0]<posting2[count2][0]:
+            res.append([posting1[count1][0], posting1[count1][1]])
             count1+=1
         elif posting1[count1][0]==posting2[count2][0]:
             res.append([posting1[count1][0], posting1[count1][1]+posting2[count2][1]])
             count1+=1
             count2+=1
         else:
+            res.append([posting2[count2][0], posting2[count2][1]])
             count2+=1
     return res
 
@@ -90,9 +97,9 @@ def simpleADD(string):
     # print(tokens)
     cleaned=dataClean(tokens)
     # print(cleaned)
-    doc_lists=[invertedIndex[element][2] for element in cleaned]
+    doc_lists=[getDocList(element) for element in cleaned]
     # doc_lists=[getDocList(element) for element in cleaned]
-    freq_lists=[invertedIndex[element][3] for element in cleaned]
+    freq_lists=[getFreqList(element) for element in cleaned]
     # print(doc_lists)
     # print(freq_lists)
     posting=[]
@@ -104,7 +111,7 @@ def simpleADD(string):
             element.append([doc_list[j],freq_list[j]])
         posting.append(element)
     # print(posting)
-    posting=sorted(posting, key=lambda k:len(k))
+    posting=sorted(posting, key=lambda k:len(k[0]))
     # print(posting)
     res=posting[0]
     for i in range(1, len(posting)):
@@ -115,7 +122,7 @@ def weightADD(titlestring, contentstring):
     title=jieba.lcut(titlestring)
     cleaned_title=dataClean(title)
     content_posting=simpleADD(contentstring)
-    titleno_lists=[zoneIndex[element] for element in cleaned_title]
+    titleno_lists=[getTitleDoc(token) for element in cleaned_title]
     # print(titleno_lists)
     title_posting=ANDALL(titleno_lists)
     print(title_posting)
@@ -144,9 +151,10 @@ def weightADD(titlestring, contentstring):
     #     res=postingADD(res, posting[i])
     # return sorted(res, key=lambda k: k[1], reverse=True)
 
-weightADD('一', '月')
+# weightADD('一', '月')
 
 string='现在一个'
 # print(simpleADD(string))
 # print(singleWeight('现在'))
-# print(weightADD(string))
+# print(weightADD(string, string))
+
