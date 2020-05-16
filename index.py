@@ -44,9 +44,14 @@ def dataClean(tokens):
     return l
 
 # print(dataClean(tokens_list[0]))
+# doc tokens
 cleaned_tokens_list=[dataClean(tokens) for tokens in tokens_list]
 # print(cleaned_tokens_list)
 # print(corpora[24])
+length=[len(element) for element in cleaned_tokens_list]
+
+def getLength():
+    return length
 
 dictionary=dict()
 for i in range(0, len(cleaned_tokens_list)):
@@ -133,6 +138,8 @@ def ORALL(docno_lists):
     for i in range(1, len(sortedList)):
         res=OR(res, sortedList[i])
     return res
+
+# print(cleaned_tokens_list[0])
 
 
 if __name__=='__main__':

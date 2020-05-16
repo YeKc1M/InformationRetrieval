@@ -10,3 +10,5 @@ lab2的内容包括：
 4. 构建title的zone index（zoneIndex.py）
 5. 实现文本查询（AND）和域查询（AND）
 新闻检索：采用Dynamic Indexing（新闻要求实时性，能够即时获得最新的消息）。存储采用Distributed Indexing? collections are too large to perfom index construction efficiently on a single machine.
+# lab3
+权值计算和文档得分
