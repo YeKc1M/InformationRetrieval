@@ -19,11 +19,52 @@
                         alert(data);
                         var text=''
                         for(var i=0; i<data.length; i++){
-                            text+=data[i][0]+'  '
+                            text+=data[i][0]+', '
                         }
                         alert(text)
                         $('#result').text(text)
                     })
+                });
+                $('#booleantfidf').click(function(){
+                    //alert('tfidf')
+                    //alert($('#booleanquery').val())
+                    $.post($SCRIPT_ROOT+'/booleanTfidf',{
+                        booleanquery: $('#booleanquery').val()
+                    }, function(data){
+                        var text=''
+                        for(var i=0; i<data.length; i++){
+                            text+=data[i][0]+', '
+                        }
+                        $('#booleantfidfres').text(text)
+                    });
+                });
+                $('#booleanwfidf1').click(function(){
+                    //alert('wfidf1')
+                    //alert($('#booleanquery').val())
+                    $.post($SCRIPT_ROOT+'/booleanwfidf1',{
+                        booleanquery: $('#booleanquery').val()
+                    }, function(data){
+                        var text=''
+                        for(var i=0; i<data.length; i++){
+                            text+=data[i][0]+', '
+                        }
+                        //alert(text)
+                        $('#booleanwfidf1res').text(text)
+                    });
+                });
+                $('#booleanwfidf2').click(function(){
+                    //alert('wfidf2')
+                    //alert($('#booleanquery').val())
+                    $.post($SCRIPT_ROOT+'/booleanwfidf2',{
+                        booleanquery: $('#booleanquery').val()
+                    }, function(data){
+                        var text=''
+                        for(var i=0; i<data.length; i++){
+                            text+=data[i][0]+', '
+                        }
+                        //alert(text)
+                        $('#booleanwfidf2res').text(text)
+                    });
                 });
             })
         </script>
@@ -37,5 +78,12 @@
             <button id='submit'>submit</button>
         </div>
         <div id='result'></div>
+        <h1>boolean tfidf</h1>
+        <div id="boolean">
+            content:<textarea id="booleanquery"></textarea><br>
+            <button id="booleantfidf">booleantfidf</button><p id='booleantfidfres'></p><br>
+            <button id="booleanwfidf1">booleanwfidf1</button><p id='booleanwfidf1res'></p><br>
+            <button id="booleanwfidf2">booleanwfidf2</button><p id='booleanwfidf2res'></p>
+        </div>
     </body>
 </html>
