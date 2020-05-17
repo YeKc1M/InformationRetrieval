@@ -12,3 +12,8 @@ lab2的内容包括：
 新闻检索：采用Dynamic Indexing（新闻要求实时性，能够即时获得最新的消息）。存储采用Distributed Indexing? collections are too large to perfom index construction efficiently on a single machine.
 # lab3
 权值计算和文档得分
+1. 编写结算tfidf基本算法
+2. 计算查询文档得分
+3. 编写计算权值的改进方法，即对tf进行归一化处理，wfidf
+    1. wf=1+log(tf)
+    2. wf=0.5+(0.5*tf/max(tf))
