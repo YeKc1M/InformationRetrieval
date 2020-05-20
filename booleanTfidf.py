@@ -81,7 +81,11 @@ for i in range(len(tf)):
     i_tf=tf[i]
     i_idf=idf[i]
     wfidf1.append([calculateWf1(element)*i_idf for element in i_tf])
-# print(wfidf1[0])
+# print(wfidf1)
+# for element in wfidf1:
+#     for ele in element:
+#         if(ele<=0):
+#             print(ele)
 # print(len(wfidf1[0]))
 # print(tfidf[0])
 def getWfidf1(token):
@@ -134,7 +138,12 @@ def postingOR(posting1, posting2):
     while count2!=length2:
         res.append([posting2[0][count2], posting2[1][count2]])
         count2+=1
-    return res
+    p1=[]
+    p2=[]
+    for i in range(len(res)):
+        p1.append(res[i][0])
+        p2.append(res[i][1])
+    return [p1, p2]
 # print(getPosting('一个'))
 # print(getPosting('学校'))
 # print(postingOR(getPosting('一个'), getPosting('学校')))
@@ -145,7 +154,10 @@ def ORALL(sortedPostings):
     res=sortedPostings[0]
     for i in range(1, len(sortedPostings)):
         res=postingOR(res, sortedPostings[i])
-    return res
+    l=[]
+    for i in range(len(res[0])):
+        l.append([res[0][i], res[1][i]])
+    return l
 
 def tfidfSearch(query):
     jiebalcut=jieba.lcut(query)
@@ -154,7 +166,7 @@ def tfidfSearch(query):
     postings=[getPosting(element) for element in tokens]
     # print(postings)
     postings=sorted(postings, key=lambda k: len(k[0]))
-    # print(postings)
+    print(postings)
     return ORALL(postings)
 
 def wfidfSearch1(query):
@@ -162,7 +174,7 @@ def wfidfSearch1(query):
     tokens=dataClean(jiebalcut)
     postings=[getWfidfPosting1(element) for element in tokens]
     postings=sorted(postings, key=lambda k: len(k[0]))
-    # print(postings)
+    print(postings)
     return ORALL(postings)
 
 def wfidfSearch2(query):
@@ -171,7 +183,7 @@ def wfidfSearch2(query):
     postings=[getWfidfPosting2(element) for element in tokens]
     # print(postings)
     postings=sorted(postings, key=lambda k: len(k[0]))
-    # print(postings)
+    print(postings)
     return ORALL(postings)
 
 # print(tfidf[terms.index('月')])

@@ -33,7 +33,7 @@
                     }, function(data){
                         var text=''
                         for(var i=0; i<data.length; i++){
-                            text+=data[i][0]+', '
+                            text+=data[i][0]+', '+data[i][1]+'---'
                         }
                         $('#booleantfidfres').text(text)
                     });
@@ -46,7 +46,7 @@
                     }, function(data){
                         var text=''
                         for(var i=0; i<data.length; i++){
-                            text+=data[i][0]+', '
+                            text+=data[i][0]+', '+data[i][1]+'---'
                         }
                         //alert(text)
                         $('#booleanwfidf1res').text(text)
@@ -60,7 +60,7 @@
                     }, function(data){
                         var text=''
                         for(var i=0; i<data.length; i++){
-                            text+=data[i][0]+', '
+                            text+=data[i][0]+', '+data[i][1]+'---'
                         }
                         //alert(text)
                         $('#booleanwfidf2res').text(text)

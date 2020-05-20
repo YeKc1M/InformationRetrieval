@@ -5,7 +5,7 @@ def calculateWf1(num):
     if num==0:
         return 0
     else:
-        return math.log(num+1, 10)+1
+        return math.log(num, 10)+3
 
 def calculateWf2(tf, tfs):
     return 0.5+0.5*tf/max(tfs)
