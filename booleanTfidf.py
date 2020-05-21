@@ -28,10 +28,20 @@ with open('posting.txt', 'r') as f:
 # print(docs)
 # print(freqs)
 
+def Terms():
+    return terms
+def Docs():
+    return docs
+def Freqs():
+    return freqs
+
 # calculate idf
 docNum=getDocNum()
 idf=[math.log10(docNum/len(element)) for element in docs]
 # print(len(idf))
+
+def Idf():
+    return idf
 
 # calculate tf
 tf=[]
@@ -56,6 +66,9 @@ for i in range(len(idf)):
     tfidf.append(element)
 # print(tfidf)
 # print(len(tfidf))
+
+def BooleanTfidf():
+    return tfidf
 
 def getTfidf(token):
     if token not in terms:
