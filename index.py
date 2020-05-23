@@ -18,7 +18,7 @@ def convert(filename):
 
 corpora=convert('news_tensite_xml.smarty.dat')
 # print(l)
-print(corpora[56])
+# print(corpora[56])
 
 def doc2tokens(document):
     # print(type(jieba.lcut(document)))

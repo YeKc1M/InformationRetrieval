@@ -123,6 +123,27 @@ def sim(vector1, vector2):
             count2+=1
     return res
 
+def vectortfidfSearch(query):
+    vector=query2vec(query)
+    # print(vector)
+    res=[]
+    for i in range(len(vectorTfidf)):
+        res.append([i, sim(vectorTfidf[i], vector)])
+    return res
+
+def vectorwfidfSearch1(query):
+    vector=query2vec(query)
+    res=[]
+    for i in range(len(vectorWfidf1)):
+        res.append([i, sim(vectorWfidf1[i], vector)])
+    return res
+
+def vectorwfidfSearch2(query):
+    vector=query2vec(query)
+    res=[]
+    for i in range(len(vectorWfidf2)):
+        res.append([i, sim(vectorWfidf2[i], vector)])
+    return res
 # q='一个中国原则美国'
 # for i in range(200):
 #     print(str(i)+' '+str(sim(vectorTfidf[i], query2vec(q))))
@@ -131,3 +152,6 @@ if __name__=='__main__':
     query='一个中国原则美国月'
     # print(query2vec(query))
     # print(sim(vectorTfidf[0], query2vec(query)))
+    # print(tfidfSearch(query))
+    # print(wfidfSearch1(query))
+    # print(wfidfSearch2(query))

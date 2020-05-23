@@ -3,6 +3,7 @@ from flask.helpers import url_for
 
 from zoneIndex import simpleADD, weightADD
 from booleanTfidf import tfidfSearch, wfidfSearch1, wfidfSearch2
+from vectortfidf import vectortfidfSearch, vectorwfidfSearch1, vectorwfidfSearch2
 
 app=Flask(__name__)
 
@@ -44,6 +45,33 @@ def booleanwfidf2():
     query=request.form['booleanquery']
     print(query)
     res=wfidfSearch2(query)
+    res=sorted(res, key=lambda k: k[1], reverse=True)
+    print(res)
+    return jsonify(res)
+
+@app.route('/vectortfidf', methods=['POST'])
+def vectortfidf():
+    query=request.form['query']
+    print(query)
+    res=vectortfidfSearch(query)
+    res=sorted(res, key=lambda k: k[1], reverse=True)
+    print(res)
+    return jsonify(res)
+
+@app.route('/vectorwfidf1', methods=['POST'])
+def vectorwfidf1():
+    query=request.form['query']
+    print(query)
+    res=vectorwfidfSearch1(query)
+    res=sorted(res, key=lambda k: k[1], reverse=True)
+    print(res)
+    return jsonify(res)
+
+@app.route('/vectorwfidf2', methods=['POST'])
+def vectorwfidf2():
+    query=request.form['query']
+    print(query)
+    res=vectorwfidfSearch2(query)
     res=sorted(res, key=lambda k: k[1], reverse=True)
     print(res)
     return jsonify(res)
