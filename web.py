@@ -1,11 +1,14 @@
 from flask import Flask, jsonify, render_template, request
 from flask.helpers import url_for
 
+from index import getCorpora
 from zoneIndex import simpleADD, weightADD
 from booleanTfidf import tfidfSearch, wfidfSearch1, wfidfSearch2
 from vectortfidf import vectortfidfSearch, vectorwfidfSearch1, vectorwfidfSearch2
 
 app=Flask(__name__)
+
+corpora=getCorpora()
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -55,7 +58,7 @@ def vectortfidf():
     print(query)
     res=vectortfidfSearch(query)
     res=sorted(res, key=lambda k: k[1], reverse=True)
-    print(res)
+    print(corpora[res[0][0]])
     return jsonify(res)
 
 @app.route('/vectorwfidf1', methods=['POST'])
@@ -64,7 +67,7 @@ def vectorwfidf1():
     print(query)
     res=vectorwfidfSearch1(query)
     res=sorted(res, key=lambda k: k[1], reverse=True)
-    print(res)
+    print(corpora[res[0][0]])
     return jsonify(res)
 
 @app.route('/vectorwfidf2', methods=['POST'])
@@ -73,7 +76,7 @@ def vectorwfidf2():
     print(query)
     res=vectorwfidfSearch2(query)
     res=sorted(res, key=lambda k: k[1], reverse=True)
-    print(res)
+    print(corpora[res[0][0]])
     return jsonify(res)
 
 if __name__=='__main__':
