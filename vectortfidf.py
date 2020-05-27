@@ -153,6 +153,59 @@ def tfidfsims(query):
             scores[i]/=length
     return scores
 
+def wfidf1sims(query):
+    vector=query2vec(query)
+    print(vector)
+    vectorDocs=[element[0] for element in vector]
+    scores=[]
+    for i in range(0, len(vectorWfidf1)):
+        scores.append(0)
+    # print(scores)
+    for element in vector:
+        # for document containing element
+        d=docs[element[0]]
+        # print(d)
+        for ele in d:
+            # for docno in d
+            for e in vectorWfidf1[ele]:
+                # for [term_no, tfidf] in vectorTfidf
+                if e[0] in vectorDocs:
+                    scores[ele]+=e[1]
+    for i in range(len(scores)):
+        if scores[i]!=0:
+            length=0
+            for element in vectorWfidf1[i]:
+                length+=(element[1]**2)
+            length=math.sqrt(length)
+            scores[i]/=length
+    return scores
+
+def wfidf2sims(query):
+    vector=query2vec(query)
+    print(vector)
+    vectorDocs=[element[0] for element in vector]
+    scores=[]
+    for i in range(0, len(vectorWfidf2)):
+        scores.append(0)
+    # print(scores)
+    for element in vector:
+        # for document containing element
+        d=docs[element[0]]
+        # print(d)
+        for ele in d:
+            # for docno in d
+            for e in vectorWfidf2[ele]:
+                # for [term_no, tfidf] in vectorTfidf
+                if e[0] in vectorDocs:
+                    scores[ele]+=e[1]
+    for i in range(len(scores)):
+        if scores[i]!=0:
+            length=0
+            for element in vectorWfidf2[i]:
+                length+=(element[1]**2)
+            length=math.sqrt(length)
+            scores[i]/=length
+    return scores
 
 def vectortfidfSearch(query):
     vector=query2vec(query)
@@ -178,7 +231,9 @@ def vectorwfidfSearch2(query):
 # q='一个中国原则美国'
 # for i in range(200):
 #     print(str(i)+' '+str(sim(vectorTfidf[i], query2vec(q))))
-print(tfidfsims('中国美国大豆市场'))
+# print(tfidfsims('中国美国大豆市场'))
+# print(wfidf1sims('中国美国大豆市场'))
+# print(tfidfsims('中国美国大豆市场'))
 
 if __name__=='__main__':
     query='一个中国原则美国月'

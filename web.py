@@ -4,7 +4,7 @@ from flask.helpers import url_for
 from index import getCorpora
 from zoneIndex import simpleADD, weightADD
 from booleanTfidf import tfidfSearch, wfidfSearch1, wfidfSearch2
-from vectortfidf import vectortfidfSearch, vectorwfidfSearch1, vectorwfidfSearch2
+from vectortfidf import vectortfidfSearch, vectorwfidfSearch1, vectorwfidfSearch2, tfidfsims, wfidf1sims, wfidf2sims
 
 app=Flask(__name__)
 
@@ -81,6 +81,48 @@ def vectorwfidf2():
     if res[0][1]!=0:
         print(corpora[res[0][0]])
     return jsonify(res)
+
+@app.route('/fastertfidf', methods=['POST'])
+def fastertfidf():
+    query=request.form['query']
+    print(query)
+    res=tfidfsims(query)
+    sim=[]
+    for i in range(len(res)):
+        sim.append([i, res[i]])
+    sim=sorted(sim, key=lambda k: k[1], reverse=True)
+    content=''
+    if sim[0][1]!=0:
+        content=corpora[sim[0][0]]
+    return jsonify({'sims':sim[:5], 'content':content})
+
+@app.route('/fasterwfidf1', methods=['POST'])
+def fasterwfidf1():
+    query=request.form['query']
+    print(query)
+    res=wfidf1sims(query)
+    sim=[]
+    for i in range(len(res)):
+        sim.append([i, res[i]])
+    sim=sorted(sim, key=lambda k: k[1], reverse=True)
+    content=''
+    if sim[0][1]!=0:
+        content=corpora[sim[0][0]]
+    return jsonify({'sims':sim[:5], 'content':content})
+
+@app.route('/fasterwfidf2', methods=['POST'])
+def fasterwfidf2():
+    query=request.form['query']
+    print(query)
+    res=wfidf2sims(query)
+    sim=[]
+    for i in range(len(res)):
+        sim.append([i, res[i]])
+    sim=sorted(sim, key=lambda k: k[1], reverse=True)
+    content=''
+    if sim[0][1]!=0:
+        content=corpora[sim[0][0]]
+    return jsonify({'sims':sim[:5], 'content':content})
 
 if __name__=='__main__':
     app.run(debug=True)
