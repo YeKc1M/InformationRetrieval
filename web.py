@@ -58,7 +58,8 @@ def vectortfidf():
     print(query)
     res=vectortfidfSearch(query)
     res=sorted(res, key=lambda k: k[1], reverse=True)
-    print(corpora[res[0][0]])
+    if res[0][1]!=0:
+        print(corpora[res[0][0]])
     return jsonify(res)
 
 @app.route('/vectorwfidf1', methods=['POST'])
@@ -67,7 +68,8 @@ def vectorwfidf1():
     print(query)
     res=vectorwfidfSearch1(query)
     res=sorted(res, key=lambda k: k[1], reverse=True)
-    print(corpora[res[0][0]])
+    if res[0][1]!=0:
+        print(corpora[res[0][0]])
     return jsonify(res)
 
 @app.route('/vectorwfidf2', methods=['POST'])
@@ -76,7 +78,8 @@ def vectorwfidf2():
     print(query)
     res=vectorwfidfSearch2(query)
     res=sorted(res, key=lambda k: k[1], reverse=True)
-    print(corpora[res[0][0]])
+    if res[0][1]!=0:
+        print(corpora[res[0][0]])
     return jsonify(res)
 
 if __name__=='__main__':

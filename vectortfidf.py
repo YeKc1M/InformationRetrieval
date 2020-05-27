@@ -92,6 +92,7 @@ def dataClean(tokens):
 def query2vec(query):
     tokens=jieba.lcut(query)
     cleaned_tokens=dataClean(tokens)
+    print(cleaned_tokens)
     querytf=[[terms.index(element), 1] for element in cleaned_tokens if element in terms]
     return sorted(querytf, key=lambda k: k[0])
 

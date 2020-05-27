@@ -68,6 +68,10 @@
                     });
                 });
                 $('#vectortfidf').click(function(){
+                    if($('#vectorquery').val()==''){
+                        alert('please input query')
+                        return;
+                    }
                     //alert($('#vectorquery').val());
                     $.post($SCRIPT_ROOT+'/vectortfidf',{
                         query:$('#vectorquery').val()
@@ -80,6 +84,10 @@
                     })
                 });
                 $('#vectorwfidf1').click(function(){
+                    if($('#vectorquery').val()==''){
+                        alert('please input query')
+                        return;
+                    }
                     //alert($('#vectorquery').val());
                     $.post($SCRIPT_ROOT+'/vectorwfidf1',{
                         query:$('#vectorquery').val()
@@ -92,6 +100,10 @@
                     })
                 });
                 $('#vectorwfidf2').click(function(){
+                    if($('#vectorquery').val()==''){
+                        alert('please input query')
+                        return;
+                    }
                     //alert($('#vectorquery').val());
                     $.post($SCRIPT_ROOT+'/vectorwfidf2',{
                         query:$('#vectorquery').val()
