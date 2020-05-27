@@ -30,7 +30,8 @@ for i in range(len(terms)):
         docindex=doc[j]
         freqindex=freq[j]
         vectorTf[doc[j]].append([i, freq[j]])
-# print(len(vectorTf[11]))
+# print(len(vectorTf[0]))
+# print(vectorTf[0])
 
 idf=Idf() # i corresponding to i_th term
 # print(idf)
@@ -82,6 +83,7 @@ with open('stopwords.txt', 'r') as f:
     fstr=f.read()
     stopwords=fstr.split('\n')
 
+
 def dataClean(tokens):
     l=[]
     for token in tokens:
@@ -123,6 +125,34 @@ def sim(vector1, vector2):
         else:
             count2+=1
     return res
+    
+def tfidfsims(query):
+    vector=query2vec(query)
+    print(vector)
+    vectorDocs=[element[0] for element in vector]
+    scores=[]
+    for i in range(0, len(vectorTfidf)):
+        scores.append(0)
+    # print(scores)
+    for element in vector:
+        # for document containing element
+        d=docs[element[0]]
+        # print(d)
+        for ele in d:
+            # for docno in d
+            for e in vectorTfidf[ele]:
+                # for [term_no, tfidf] in vectorTfidf
+                if e[0] in vectorDocs:
+                    scores[ele]+=e[1]
+    for i in range(len(scores)):
+        if scores[i]!=0:
+            length=0
+            for element in vectorTfidf[i]:
+                length+=(element[1]**2)
+            length=math.sqrt(length)
+            scores[i]/=length
+    return scores
+
 
 def vectortfidfSearch(query):
     vector=query2vec(query)
@@ -148,6 +178,7 @@ def vectorwfidfSearch2(query):
 # q='一个中国原则美国'
 # for i in range(200):
 #     print(str(i)+' '+str(sim(vectorTfidf[i], query2vec(q))))
+print(tfidfsims('中国美国大豆市场'))
 
 if __name__=='__main__':
     query='一个中国原则美国月'

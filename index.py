@@ -149,3 +149,5 @@ def ORALL(docno_lists):
 if __name__=='__main__':
     l1=[2,4,6,7]
     l2=[3,5,7,8]
+    a=input()
+    print(corpora[(int)(a)])
