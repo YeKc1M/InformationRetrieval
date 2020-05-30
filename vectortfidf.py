@@ -21,6 +21,8 @@ for i in range(docNum):
     vectorTf.append([])
 # print(vectorTf)
 # print(len(vectorTf))
+def getVectorTf():
+    return vectorTf
 
 for i in range(len(terms)):
     # for terms[i]
@@ -48,6 +50,9 @@ for i in range(len(vectorTf)):
         vectorTfidf[i].append([term_id, vectorTf[i][j][1]*idf[term_id]])
 # print(vectorTfidf[0])
 # print(len(vectorTf[11])==len(vectorTfidf[11]))
+
+def getVectorTfidf():
+    return vectorTfidf
 
 vectorWfidf1=[]
 for i in range(docNum):
