@@ -25,5 +25,7 @@ lab2的内容包括：
 1. 将向量模型中所有文档集的bag of words 作为`Mc`
 2. 建立每篇文档的`Md`
 3. 利用概率模型的三种计算方法，确定`Md`中每个term的先验概率值
-$$ P(x_i | R)=0.5 $$
-$$ P(x_i | \overline{R})=\frac{n_i}{N} $$
+    1. $ P(x_i | R)=0.5 $  $ P(x_i | \overline{R})=\frac{n_i}{N} $
+    2. $ P(x_i | R)=\frac{V_i}{V} $  $ P(x_i | \overline{R})=\frac{n_i-V_i}{N-V}
+    3. $ P(x_i | R)=\frac{V_i+0.5}{V+1} $  $ P(x_i | \overline{R})=\frac{n_i-V+0.5}{N-V+1}
+4. 设计检索界面，测试5条查询需求，给出排序结果。$ P(w | d)=\lambda P(w|M_d)+(1-\lambda )P(w | M_c)
