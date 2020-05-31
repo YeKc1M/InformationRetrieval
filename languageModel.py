@@ -1,5 +1,5 @@
 import jieba
-from index import getLength
+from index import getLength, dataClean, getCorpora
 from booleanTfidf import Terms
 from vectortfidf import getVectorTf
 
@@ -33,17 +33,73 @@ for element in vectorTf:
 # print(len(Md[0][0])==len(vectorTf[0]))
 # print(Md[0])
 
-weight=[0.3, 0.7] # 0-Md, 1-Mc
+weight=[0.9, 0.1] # 0-Md, 1-Mc
 
 def cal_term_pro_Md(term):
-    termNo=0
+    termNo=-1
     res=[]
     try:
         termNo=terms.index(term)
+        for i in range(len(Md)):
+            element=Md[i]
+            if termNo in element[0]:
+                res.append(element[1][element[0].index(termNo)]/length[i])
+            else:
+                if len(element[1])==0:
+                    res.append(0)
+                else:
+                    res.append(min(element[1])*0.00001/length[i])
     except ValueError:
         termNo=-1
+        for i in range(len(Md)):
+            res.append(0.000000001)
+    # print(len(res))
+    return res
 
-cal_term_pro_Md('一个')
+# cal_term_pro_Md('一个')
+# print(cal_term_pro_Md('一个').index(max(cal_term_pro_Md('一个'))))
+# print(getCorpora()[126])
+
+def cal_term_pro_Mc(term):
+    termNo=-1
+    res=0
+    try:
+        termNo=terms.index(term)
+        res=Mc[termNo]/totalNum
+    except ValueError:
+        res=min(Mc)*0.001/totalNum
+    # print(termNo)
+    return res
+# print(cal_term_pro_Mc('一个个个'))
 # print(terms.index('龙门山'))
-# def cal_term_pro(term):
-#     proMd=cal_term_pro_Md(term)
+def cal_term_pro(term):
+    pro_Mc=cal_term_pro_Mc(term)
+    pro_Md=cal_term_pro_Md(term)
+    # print(pro_Mc)
+    # print(pro_Md)
+    # print(len(pro_Md))
+    return [weight[0]*element+weight[1]*pro_Mc for element in pro_Md]
+
+# print(cal_term_pro('一个'))
+
+def cal_pro(query):
+    l=jieba.lcut(query)
+    tokens=dataClean(l)
+    # print(tokens)
+    pro=[0]*len(Md)
+    # print(pro)
+    if len(tokens)!=0:
+        pro=cal_term_pro(tokens[0])
+        for i in range(1, len(tokens)):
+            new=cal_term_pro(tokens[i])
+            for j in range(len(Md)):
+                pro[j]*=new[j]
+    res=[]
+    # print(len(Md))
+    for i in range(len(pro)):
+        res.append([i, pro[i]])
+    return res
+
+# cal_pro('高考成绩发布')
+print(sorted(cal_pro('日本东京'), key=lambda k:k[1], reverse=True))
+# print(getCorpora()[76])
