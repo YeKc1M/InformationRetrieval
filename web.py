@@ -5,6 +5,7 @@ from index import getCorpora
 from zoneIndex import simpleADD, weightADD
 from booleanTfidf import tfidfSearch, wfidfSearch1, wfidfSearch2
 from vectortfidf import vectortfidfSearch, vectorwfidfSearch1, vectorwfidfSearch2, tfidfsims, wfidf1sims, wfidf2sims
+from languageModel import cal_pro
 
 app=Flask(__name__)
 
@@ -123,6 +124,14 @@ def fasterwfidf2():
     if sim[0][1]!=0:
         content=corpora[sim[0][0]]
     return jsonify({'sims':sim[:5], 'content':content})
+
+@app.route('/languagemodel', methods=['POST'])
+def languagemodel():
+    query=request.form['query']
+    print(query)
+    res=sorted(cal_pro(query), key=lambda k: k[1], reverse=True)
+    content=corpora[res[0][0]]
+    return jsonify({'sims':res[:5], 'content':content})
 
 if __name__=='__main__':
     app.run(debug=True)

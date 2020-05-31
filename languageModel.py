@@ -101,5 +101,5 @@ def cal_pro(query):
     return res
 
 # cal_pro('高考成绩发布')
-print(sorted(cal_pro('日本东京'), key=lambda k:k[1], reverse=True))
+# print(sorted(cal_pro('日本东京'), key=lambda k:k[1], reverse=True))
 # print(getCorpora()[76])

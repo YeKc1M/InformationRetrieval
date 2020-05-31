@@ -181,6 +181,25 @@
                         $('#fastervectorwfidf2res').text(text)
                     })
                 })
+                $('#languagebutton').click(function(){
+                    if($('#languagequery').val()==''){
+                        alert('please input query')
+                        return;
+                    }
+                    //alert($('#languagequery').val())
+                    $.post($SCRIPT_ROOT+'/languagemodel',{
+                        query:$('#languagequery').val()
+                    }, function(data){
+                        sims=data.sims
+                        content=data.content
+                        text=''
+                        for(var i=0; i<sims.length; i++){
+                            text+=sims[i][0]+' '+sims[i][1]+'\n'
+                        }
+                        text+=content
+                        $('#languageres').text(text)
+                    })
+                })
             })
         </script>
     </head>
@@ -211,6 +230,12 @@
             <div><button id="fastervectortfidf">vectortfidf</button><p id="fastervectortfidfres"></p></div>
             <div><button id="fastervectorwfidf1">vectorwfidf1</button><p id="fastervectorwfidf1res"></p></div>
             <div><button id="fastervectorwfidf2">vectorwfidf2</button><p id="fastervectorwfidf2res"></p></div>
+        </div>
+        <div id="language">
+            <h1>language model</h1>
+            content:<textarea id="languagequery"></textarea><br>
+            <button id="languagebutton">language model</button>
+            <p id="languageres"></p>
         </div>
     </body>
 </html>
