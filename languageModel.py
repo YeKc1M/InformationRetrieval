@@ -1,10 +1,12 @@
 import jieba
 from index import getLength, dataClean, getCorpora
-from booleanTfidf import Terms
-from vectortfidf import getVectorTf
+from booleanTfidf import Terms, Docs
+from vectortfidf import getVectorTf, tfidfsims, wfidf1sims, wfidf2sims, query2vec
 
 terms=Terms()
 # print(terms)
+docs=Docs()
+# print(docs[1])
 vectorTf=getVectorTf() # index indicating docNo. containing token occurances of term in i_th document
 # print(vectorTf[0])
 length=getLength() # token number of i_th document
@@ -100,6 +102,62 @@ def cal_pro(query):
         res.append([i, pro[i]])
     return res
 
+def term_prior1(termNo):
+    N=len(Md)
+    n=len(docs[termNo])
+    return [0.5, n/N]
+# print(term_prior1(0))
+
+def prior1(query):
+    vector=query2vec(query)
+    return [term_prior1(element[0]) for element in vector]
+# print(prior1('一个学生'))
+
+def prior2(query, K=10):
+    vector=query2vec(query)
+    res=[]
+    N=len(Md)
+    scores=wfidf2sims(query)
+    rank=[]
+    for i in range(len(scores)):
+        rank.append([i, scores[i]])
+    rank=sorted(rank, key=lambda k:k[1], reverse=True)[:K]
+    # print(rank)
+    V=len(rank)
+    for element in vector:
+        # element: [termNo, 1]
+        n_doc=docs[element[0]]
+        n=len(n_doc)
+        v=0
+        for ele in rank:
+            if ele[0] in n_doc:
+                v+=1
+        res.append([v/V, (n-v)/(N-V)])
+    return res
+# print(prior2('中国美国大豆市场'))
+
+def prior3(query, K=10):
+    vector=query2vec(query)
+    res=[]
+    N=len(Md)
+    scores=wfidf2sims(query)
+    rank=[]
+    for i in range(len(scores)):
+        rank.append([i, scores[i]])
+    rank=sorted(rank, key=lambda k:k[1], reverse=True)[:K]
+    # print(rank)
+    V=len(rank)
+    for element in vector:
+        # element: [termNo, 1]
+        n_doc=docs[element[0]]
+        n=len(n_doc)
+        v=0
+        for ele in rank:
+            if ele[0] in n_doc:
+                v+=1
+        res.append([(v+0.5)/(V+1), (n-v+0.5)/(N-V+1)])
+    return res
+print(prior3('中国美国大豆市场'))
 # cal_pro('高考成绩发布')
 # print(sorted(cal_pro('日本东京'), key=lambda k:k[1], reverse=True))
 # print(getCorpora()[76])
