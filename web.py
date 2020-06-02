@@ -5,7 +5,7 @@ from index import getCorpora
 from zoneIndex import simpleADD, weightADD
 from booleanTfidf import tfidfSearch, wfidfSearch1, wfidfSearch2
 from vectortfidf import vectortfidfSearch, vectorwfidfSearch1, vectorwfidfSearch2, tfidfsims, wfidf1sims, wfidf2sims
-from languageModel import cal_pro
+from languageModel import cal_pro, sim1, sim2, sim3
 
 app=Flask(__name__)
 
@@ -130,6 +130,30 @@ def languagemodel():
     query=request.form['query']
     print(query)
     res=sorted(cal_pro(query), key=lambda k: k[1], reverse=True)
+    content=corpora[res[0][0]]
+    return jsonify({'sims':res[:5], 'content':content})
+
+@app.route('/prior1', methods=['POST'])
+def prior1():
+    query=request.form['query']
+    print(query)
+    res=sorted(sim1(query), key=lambda k: k[1], reverse=True)
+    content=corpora[res[0][0]]
+    return jsonify({'sims':res[:5], 'content':content})
+
+@app.route('/prior2', methods=['POST'])
+def prior2():
+    query=request.form['query']
+    print(query)
+    res=sorted(sim2(query), key=lambda k: k[1], reverse=True)
+    content=corpora[res[0][0]]
+    return jsonify({'sims':res[:5], 'content':content})
+
+@app.route('/prior3', methods=['POST'])
+def prior3():
+    query=request.form['query']
+    print(query)
+    res=sorted(sim3(query), key=lambda k: k[1], reverse=True)
     content=corpora[res[0][0]]
     return jsonify({'sims':res[:5], 'content':content})
 

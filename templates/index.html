@@ -200,6 +200,63 @@
                         $('#languageres').text(text)
                     })
                 })
+                $('#prior1button').click(function(){
+                    if($('#languagequery').val()==''){
+                        alert('please input query')
+                        return;
+                    }
+                    //alert($('#languagequery').val())
+                    $.post($SCRIPT_ROOT+'/prior1',{
+                        query:$('#languagequery').val()
+                    }, function(data){
+                        sims=data.sims
+                        content=data.content
+                        text=''
+                        for(var i=0; i<sims.length; i++){
+                            text+=sims[i][0]+' '+sims[i][1]+'\n'
+                        }
+                        text+=content
+                        $('#prior1res').text(text)
+                    })
+                })
+                $('#prior2button').click(function(){
+                    if($('#languagequery').val()==''){
+                        alert('please input query')
+                        return;
+                    }
+                    //alert($('#languagequery').val())
+                    $.post($SCRIPT_ROOT+'/prior2',{
+                        query:$('#languagequery').val()
+                    }, function(data){
+                        sims=data.sims
+                        content=data.content
+                        text=''
+                        for(var i=0; i<sims.length; i++){
+                            text+=sims[i][0]+' '+sims[i][1]+'\n'
+                        }
+                        text+=content
+                        $('#prior2res').text(text)
+                    })
+                })
+                $('#prior3button').click(function(){
+                    if($('#languagequery').val()==''){
+                        alert('please input query')
+                        return;
+                    }
+                    //alert($('#languagequery').val())
+                    $.post($SCRIPT_ROOT+'/prior3',{
+                        query:$('#languagequery').val()
+                    }, function(data){
+                        sims=data.sims
+                        content=data.content
+                        text=''
+                        for(var i=0; i<sims.length; i++){
+                            text+=sims[i][0]+' '+sims[i][1]+'\n'
+                        }
+                        text+=content
+                        $('#prior3res').text(text)
+                    })
+                })
             })
         </script>
     </head>
@@ -234,8 +291,10 @@
         <div id="language">
             <h1>language model</h1>
             content:<textarea id="languagequery"></textarea><br>
-            <button id="languagebutton">language model</button>
-            <p id="languageres"></p>
+            <div><button id="languagebutton">language model</button><p id="languageres"></p></div>
+            <div><button id="prior1button">prior1</button><p id="prior1res"></p></div>
+            <div><button id="prior2button">prior2</button><p id="prior2res"></p></div>
+            <div><button id="prior3button">prior3</button><p id="prior3res"></p></div>
         </div>
     </body>
 </html>

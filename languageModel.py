@@ -232,7 +232,7 @@ def sim3(query):
     for i in range(len(scores)):
         res.append([i, scores[i]])
     return res
-print(sorted(sim3('中国美国大豆市场'), key=lambda k: k[1], reverse=True))
+# print(sorted(sim3('中国美国大豆市场'), key=lambda k: k[1], reverse=True))
 
 # cal_pro('高考成绩发布')
 # print(sorted(cal_pro('日本东京'), key=lambda k:k[1], reverse=True))
