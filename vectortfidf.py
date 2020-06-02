@@ -133,7 +133,7 @@ def sim(vector1, vector2):
     
 def tfidfsims(query):
     vector=query2vec(query)
-    print(vector)
+    # print(vector)
     vectorDocs=[element[0] for element in vector]
     scores=[]
     for i in range(0, len(vectorTfidf)):
@@ -160,7 +160,7 @@ def tfidfsims(query):
 
 def wfidf1sims(query):
     vector=query2vec(query)
-    print(vector)
+    # print(vector)
     vectorDocs=[element[0] for element in vector]
     scores=[]
     for i in range(0, len(vectorWfidf1)):
@@ -187,7 +187,7 @@ def wfidf1sims(query):
 
 def wfidf2sims(query):
     vector=query2vec(query)
-    print(vector)
+    # print(vector)
     vectorDocs=[element[0] for element in vector]
     scores=[]
     for i in range(0, len(vectorWfidf2)):

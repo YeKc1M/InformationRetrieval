@@ -2,10 +2,11 @@ import jieba
 from index import getLength, dataClean, getCorpora
 from booleanTfidf import Terms, Docs
 from vectortfidf import getVectorTf, tfidfsims, wfidf1sims, wfidf2sims, query2vec
+import math
 
 terms=Terms()
 # print(terms)
-docs=Docs()
+docs=Docs() # containing documentNos containing i_th term 
 # print(docs[1])
 vectorTf=getVectorTf() # index indicating docNo. containing token occurances of term in i_th document
 # print(vectorTf[0])
@@ -134,7 +135,7 @@ def prior2(query, K=10):
                 v+=1
         res.append([v/V, (n-v)/(N-V)])
     return res
-# print(prior2('中国美国大豆市场'))
+# print(prior2('日本东京'))
 
 def prior3(query, K=10):
     vector=query2vec(query)
@@ -157,7 +158,82 @@ def prior3(query, K=10):
                 v+=1
         res.append([(v+0.5)/(V+1), (n-v+0.5)/(N-V+1)])
     return res
-print(prior3('中国美国大豆市场'))
+# print(prior3('中国美国大豆市场'))
+
+def sim1(query):
+    vector=query2vec(query)
+    vector=[element[0] for element in vector]
+    # print(vector)
+    prior=prior1(query)
+    nums=[math.log(element[0]/(1-element[0]),2)+math.log((1-element[1])/element[1]) for element in prior]
+    print(nums)
+    scores=[]
+    for i in range(len(vectorTf)):
+        scores.append(0)
+    # print(len(scores))
+    for i in range(len(vector)):
+        element=vector[i] # termNo in query
+        # for each termNo in query
+        d=docs[element] # docNos containing element
+        for ele in d: # for each docNo containing element
+            scores[ele]+=nums[i]
+    # print(scores)
+    res=[]
+    for i in range(len(scores)):
+        res.append([i, scores[i]])
+    return res
+# print(sim1('中国美国大豆市场'))
+# print(sorted(sim1('日本东京'), key=lambda k: k[1], reverse=True))
+
+def sim2(query):
+    vector=query2vec(query)
+    vector=[element[0] for element in vector]
+    # print(vector)
+    prior=prior2(query)
+    nums=[math.log(element[0]/(1-element[0]),2)+math.log((1-element[1])/element[1]) for element in prior]
+    print(nums)
+    scores=[]
+    for i in range(len(vectorTf)):
+        scores.append(0)
+    # print(len(scores))
+    for i in range(len(vector)):
+        element=vector[i] # termNo in query
+        # for each termNo in query
+        d=docs[element] # docNos containing element
+        for ele in d: # for each docNo containing element
+            scores[ele]+=nums[i]
+    # print(scores)
+    res=[]
+    for i in range(len(scores)):
+        res.append([i, scores[i]])
+    return res
+# print(sim1('中国美国大豆市场'))
+# print(sorted(sim2('中国美国大豆市场'), key=lambda k: k[1], reverse=True))
+
+def sim3(query):
+    vector=query2vec(query)
+    vector=[element[0] for element in vector]
+    # print(vector)
+    prior=prior3(query)
+    nums=[math.log(element[0]/(1-element[0]),2)+math.log((1-element[1])/element[1]) for element in prior]
+    print(nums)
+    scores=[]
+    for i in range(len(vectorTf)):
+        scores.append(0)
+    # print(len(scores))
+    for i in range(len(vector)):
+        element=vector[i] # termNo in query
+        # for each termNo in query
+        d=docs[element] # docNos containing element
+        for ele in d: # for each docNo containing element
+            scores[ele]+=nums[i]
+    # print(scores)
+    res=[]
+    for i in range(len(scores)):
+        res.append([i, scores[i]])
+    return res
+print(sorted(sim3('中国美国大豆市场'), key=lambda k: k[1], reverse=True))
+
 # cal_pro('高考成绩发布')
 # print(sorted(cal_pro('日本东京'), key=lambda k:k[1], reverse=True))
 # print(getCorpora()[76])
